@@ -17,6 +17,11 @@ namespace PasswordValidation.Controllers
             _passwordValidator = passwordValidator;
         }
 
+        /// <summary>
+        /// Valida se a senha atende os requisitos mínimos de segurança
+        /// </summary>
+        /// <param name="password">Senha a ser validada</param>
+        /// <response code="200">Retorna se a senha é válida</response>
         [HttpGet("is-valid/{password}")]
         public IActionResult IsValid(string password)
         {
