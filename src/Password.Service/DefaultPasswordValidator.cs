@@ -1,4 +1,4 @@
-﻿namespace Password.API.Services
+﻿namespace Password.Services
 {
     public class DefaultPasswordValidator : IPasswordValidator
     {

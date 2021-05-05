@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Password.API.Services;
+using Password.Services;
 
 namespace PasswordValidation.Controllers
 {
