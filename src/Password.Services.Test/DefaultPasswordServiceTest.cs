@@ -18,11 +18,15 @@ namespace Password.Service.Test
             Assert.False(result);
         }
 
-        [Fact]
-        public void IsValid_LessThanOneDigit_ReturnsFalse()
+        [Theory]
+        [InlineData("")]
+        [InlineData("aa")]
+        [InlineData("ab")]
+        [InlineData("AAAbbbCc")]
+        public void IsValid_LessThanOneDigit_ReturnsFalse(string password)
         {
             IPasswordValidator passwordValidator = new DefaultPasswordValidator();
-            bool result = passwordValidator.IsValid("");
+            bool result = passwordValidator.IsValid(password);
 
             Assert.False(result);
         }
