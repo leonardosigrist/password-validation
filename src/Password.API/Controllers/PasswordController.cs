@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Password.Services;
 
 namespace PasswordValidation.Controllers
@@ -8,12 +7,10 @@ namespace PasswordValidation.Controllers
     [Route("[controller]")]
     public class PasswordController : ControllerBase
     {
-        private readonly ILogger<PasswordController> _logger;
         private readonly IPasswordValidator _passwordValidator;
 
-        public PasswordController(ILogger<PasswordController> logger, IPasswordValidator passwordValidator)
+        public PasswordController(IPasswordValidator passwordValidator)
         {
-            _logger = logger;
             _passwordValidator = passwordValidator;
         }
 
