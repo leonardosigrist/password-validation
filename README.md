@@ -40,7 +40,7 @@ Caso você tenha o Visual Studio instalado, basta abrir o arquivo `src/PasswordV
 
 Selecione o menu `Build > Build Solution`. Isso fará com que os pacotes nuget sejam baixados e o projeto seja compilado. Aguarde até que o build seja bem sucedido e em seguida clique no botão com símbolo de play no menu superior para executar o aplicativo:
 
-![visual-studio-play.png](.\img\1-visual-studio-play.png)
+![visual-studio-play.png](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/1-visual-studio-play.png)
 
 **Obs:** essa aplicação pode ser executada tanto utilizando a opção **IIS Express** quanto **PasswordValidation** (self-hosted).
 
@@ -63,17 +63,17 @@ Esses comandos vão servir para fazer download das dependências, compilar e rod
 
 Independente da forma escolhida para rodar o sistema, por padrão ele será executado na porta 3001. Quando executado pelo Visual Studio ele abrirá automaticamente o browser na página do Swagger, que pode também ser aberto manualmente entrando no browser e procurando pelo endereço http://localhost:3001/swagger 
 
-![swagger-ui](.\img\2-swagger-ui.png)
+![swagger-ui](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/2-swagger-ui.png)
 
 Para executar a action e validar se a sua senha atende aos requisitos mínimos para ser considerada válida você precisa clicar no botão "Try it out", preencher o campo **password** com a senha a ser validada, o **x-api-key** com o token de segurança (explicado no tópico "Segurança" a seguir) e clicar em "Execute".
 
 O Swagger apresenta na interface as descrições contidas nos comentários do código, como descrição da action, das variáveis de parâmetro e os códigos de response previstos. Para isso foi necessário alterar o arquivo `.csproj` da API para gerar um XML com a documentação presente nos comentários:
 
-![swagger-config-1](.\img\3-swagger-config-1.png)
+![swagger-config-1](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/3-swagger-config-1.png)
 
 E então solicitar ao Swagger que inclua os comentários do XML em sua inicialização no Startup do projeto:
 
- ![swagger-config-2](.\img\4-swagger-config-2.png)
+ ![swagger-config-2](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/4-swagger-config-2.png)
 
 
 
@@ -81,13 +81,13 @@ E então solicitar ao Swagger que inclua os comentários do XML em sua inicializ
 
 Para garantir uma segurança mínima à API optei por validar um token que é passado pelo header do request HTTP. O nome do header **x-api-key** é baseado na nomenclatura padrão utilizado pelo AWS API Gateway. A chave passada no header de cada requisição é confrontada com o valor presente no arquivo de configuração, como mostrado na figura abaixo:
 
-![api-key](.\img\5-api-key.png)
+![api-key](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/5-api-key.png)
 
 Caso a chave não seja passada na requisição, será retornado um response com status **401 - Unauthorized** informando que você não está autorizado a obter a informação.
 
 Para que uma action ou um controller possam receber essa validação de segurança basta anotar o método com o attribute `[ApiKeyAuthorize]`. Caso seja anotado o controller, todas as actions contidas naquela classe serão validadas, mas se optar por proteger uma única action basta anotá-la apenas na assinatura do método específico.
 
-![api-key-attribute](.\img\6-api-key-attribute.png)
+![api-key-attribute](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/6-api-key-attribute.png)
 
 
 
@@ -103,7 +103,7 @@ Abaixo um exemplo utilizando esse padrão de nomenclatura:
 
 Sempre que possível os métodos fazem a validação de mais de um valor para garantir que a determinada regra esteja válida com uma diversidade maior de inputs.
 
-![tests-config](.\img\7-tests-config.png)
+![tests-config](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/7-tests-config.png)
 
 
 
@@ -111,7 +111,7 @@ Sempre que possível os métodos fazem a validação de mais de um valor para ga
 
 Para executar os testes no Visual Studio basta ir no menu superior `Test > Run All Tests` e acompanhar o resultado da execução no Test Explorer (caso não visualize a tab do Test Explorer acesse o menu `View > Test Explorer`).
 
-![tests-execution](.\img\8-tests-execution.png)
+![tests-execution](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/8-tests-execution.png)
 
 Também é possível executar os testes utilizando o .NET CLI. Basta abrir um prompt de comandos, navegar até a pasta `src/Password.Services.Test` e executar o comando abaixo:
 
@@ -127,7 +127,7 @@ dotnet test
 
 Para solucionar esse problema utilizei o conceito do princípio do aberto/fechado, onde as classes ficam fechadas para modificação mas abertas para extensão. A ideia foi criar um serviço base `IPasswordValidator` que define um contrato básico, definindo que toda validação de senha necessita uma senha para ser validada e retornará um resultado booleano informando se a senha é ou não válida.
 
-![password-validator-interface](.\img\9-password-validator-interface.png)
+![password-validator-interface](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/9-password-validator-interface.png)
 
 A partir dessa interface criei a classe `DefaultPasswordValidator`  que irá validar a senha de uma forma padrão com as regras já mencionadas acima, mas se no futuro surgir a necessidade de validar de forma mais branda uma senha, pode ser criada uma classe chamada `BasicPasswordValidator` que implementa a mesma interface `IPasswordValidator` mas que faz suas próprias regras de validação.
 
@@ -139,7 +139,7 @@ Apliquei o princípio da responsabilidade única para que cada método tenha ape
 
 Para isso, na classe `DefaultPasswordValidator` eu quebrei a regra de negócio em pequenos métodos, cada um validando um único quesito. Dessa forma se for preciso incluir um caractere especial na validação de caracteres especiais, fica mais fácil perceber que será necessário alterar apenas o método `HasAtLeastOneSpecialCharacter` e não será preciso entender todas as regras do método `IsValid` para saber onde alterar.
 
-![single-responsability](.\img\10-single-responsability.png)
+![single-responsability](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/10-single-responsability.png)
 
 
 
@@ -147,4 +147,4 @@ Para isso, na classe `DefaultPasswordValidator` eu quebrei a regra de negócio e
 
 Pensando que a aplicação não precisa ter mais de uma instância da classe `DefaultPasswordValidator` para fazer a validação de senhas, resolvi utilizar o padrão Singleton para injetar essa dependência e evitar o uso desnecessário de memória.
 
-![singleton](.\img\11-singleton.png)
+![singleton](https://raw.githubusercontent.com/leonardosigrist/password-validation/main/img/11-singleton.png)
