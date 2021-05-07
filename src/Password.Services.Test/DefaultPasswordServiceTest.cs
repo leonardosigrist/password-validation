@@ -10,7 +10,7 @@ namespace Password.Service.Test
         [InlineData("aa")]
         [InlineData("ab")]
         [InlineData("AAAbbbCc")]
-        public void IsValid_LessThanNineDigits_ReturnsFalse(string password)
+        public void IsValid_LessThanNineCharacters_ReturnsFalse(string password)
         {
             IPasswordValidator passwordValidator = new DefaultPasswordValidator();
             bool result = passwordValidator.IsValid(password);
